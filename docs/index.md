@@ -10,5 +10,7 @@
     
     
 !!! circle-question "Slurm array"
-
+    
+    <center>![image](./nesi_images/slurm_array.png){width="250"}</center>
+    <br>
     Job arrays offer a mechanism for submitting and managing collections of similar jobs quickly and easily; job arrays with millions of tasks can be submitted in milliseconds (subject to configured size limits). All jobs must have the same initial options (e.g. size, time limit, etc.)
