@@ -59,3 +59,8 @@
      
     date
     ```
+    !!! terminal "submit"
+
+        - submit the script with `sbatch scripts/demo-array.slurm` 
+             -  If needed, use array throttling (eeping only a certain number of tasks **RUNNING** at a time). Let's say we want to run only 20 queries at a time (out of 149), then adding `#SBATCH --array 0-149%20` to the submission script or call during submission to `sbatch` command with `sbatch --array 0-149%20 scripts/demo-array.slurm`
+        - Review the status of submission with `squeue -j jobid`
