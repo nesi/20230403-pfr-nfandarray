@@ -1,5 +1,6 @@
+<center>
 # Demo on deploying Nextflow and Slurm array on NeSI Mahuika cluster
-
+</center>
 
 !!! question "Nextflow"
     
