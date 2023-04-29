@@ -1,0 +1,1 @@
+{"config":{"lang":["en"],"separator":"[\\s\\-]+","pipeline":["stopWordFilter"]},"docs":[{"location":"","title":"Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster","text":""}]}

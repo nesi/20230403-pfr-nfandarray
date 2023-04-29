@@ -1,7 +1,7 @@
 site_name: Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster
 site_author: NeSI
 site_dir: public
-site_url: "https://nesi.github.io/blobtools-jupyter-vdt/"
+site_url: "https://nesi.github.io/20230503-pfr-nfandarray/"
 
 #Repository information
 
