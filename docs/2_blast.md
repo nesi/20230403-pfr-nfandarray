@@ -3,7 +3,7 @@
 **BLAST** finds regions of similarity between biological sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance
 
 
-!!! microphone "For the demonstrator"
+??? microphone "For the demonstrator"
     
     - Working directory **/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/blast**
     - Sequences were delivered in a single file **/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/blast/parent_file/demo-hic.fa**
