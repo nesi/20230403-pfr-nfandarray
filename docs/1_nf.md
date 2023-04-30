@@ -1,6 +1,6 @@
 # Nextflow 
 
-!!! microphone "For the demonstrator"
+??? microphone "For the demonstrator"
     * Working directory is **/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/nextflow/**
 
     * Content of **/example_1** directory is 
@@ -34,4 +34,9 @@
         #OR use `squeue -j JOBID`
         squeue --me     
         ```
-    
+    !!! tower-observation "Can use `nextflow tower`"
+        
+        No restrictions (firewall rules,etc) with respect to using `nf tower`.  As long as the `TOWER_ACCESS_TOKEN` is defined on current session ( Ideally add it to *~/.bashrc*), tower can be called as usual via `-with-tower` flag and runtime information will be propagated to https://tower.nf/
+        ```bash
+        sbatch --wrap 'nextflow run main.nf -with-tower'
+        ```

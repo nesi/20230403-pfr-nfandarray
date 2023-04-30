@@ -537,15 +537,15 @@
   }
   .md-typeset .admonition.tower-observation,
   .md-typeset details.tower-observation {
-    border-color: rgb(148, 233, 152);
+    border-color: rgb(201, 182, 10);
   }
   .md-typeset .tower-observation > .admonition-title,
   .md-typeset .tower-observation > summary {
-    background-color: rgba(26, 243, 6, 0.459);
+    background-color: rgba(208, 216, 102, 0.459);
   }
   .md-typeset .tower-observation > .admonition-title::before,
   .md-typeset .tower-observation > summary::before {
-    background-color: rgb(15, 37, 65);
+    background-color: rgb(177, 98, 9);
     -webkit-mask-image: var(--md-admonition-icon--tower-observation);
             mask-image: var(--md-admonition-icon--tower-observation);
   }
