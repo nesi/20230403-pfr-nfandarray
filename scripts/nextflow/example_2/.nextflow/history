@@ -1,0 +1,2 @@
+2023-04-30 15:15:06	13.5s	amazing_marconi	ERR	33eeadeda44843fe36d216be66de4e7afec6999b	f22e005a-75bd-457a-8b7a-241dea1a3f5a	nextflow run nf-core/imcyto -profile test,singularity -c local_config/nesi_mahuika.config -resume -with-tower
+2023-04-30 15:16:34	1m 34s	astonishing_mccarthy	OK	33eeadeda44843fe36d216be66de4e7afec6999b	f22e005a-75bd-457a-8b7a-241dea1a3f5a	nextflow run nf-core/imcyto -profile test,singularity -c local_config/nesi_mahuika.config -resume -with-tower
