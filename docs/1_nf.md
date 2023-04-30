@@ -7,6 +7,7 @@
       ```bash
       main.nf  Makefile  nextflow.config  nf-clean.sh
       ```
+       - If any of the files are missing, download them from [the repo](https://github.com/nesi/20230503-pfr-nfandarray/tree/main/scripts/nextflow/example_1)
 
 
 !!! example "Example 1"
