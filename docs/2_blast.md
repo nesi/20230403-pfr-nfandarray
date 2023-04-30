@@ -1,4 +1,4 @@
-# Run multiple BLAST queries in parallel with a single submission script
+# Slurm array: Run multiple BLAST queries in parallel with a single submission script
 
 **BLAST** finds regions of similarity between biological sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance
 
