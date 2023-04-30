@@ -45,7 +45,7 @@
         sbatch --wrap 'nextflow run main.nf -with-tower'
         ```
 
-!!! example "Example 2"
+??? example "Example 2"
 
     - This is using the **"image segmentation and extraction of single cell expression data"** pipeline provided by `nf-core` https://nf-co.re/imcyto/1.0.0
     - Given this is a Singularity container based workflow, it required few variables such as `SINGULARITY_BIND`. Ideal approach is to prepare a launch script as below and then submit it with `sbatch`
