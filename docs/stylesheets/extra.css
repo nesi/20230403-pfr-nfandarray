@@ -540,7 +540,7 @@
   }
   .md-typeset .circle-question > .admonition-title::before,
   .md-typeset .circle-question > summary::before {
-    background-color: rgb(161, 113, 9);
+    background-color: rgb(202, 101, 43);
     -webkit-mask-image: var(--md-admonition-icon--circle-question);
             mask-image: var(--md-admonition-icon--circle-question);
   }
@@ -550,11 +550,11 @@
   }
   .md-typeset .admonition.microphone,
   .md-typeset details.microphone {
-    border-color: rgb(148, 233, 152);
+    border-color: rgb(233, 220, 148);
   }
   .md-typeset .microphone > .admonition-title,
   .md-typeset .microphone > summary {
-    background-color: rgba(26, 243, 6, 0.459);
+    background-color: rgba(223, 204, 97, 0.459);
   }
   .md-typeset .microphone > .admonition-title::before,
   .md-typeset .microphone > summary::before {
