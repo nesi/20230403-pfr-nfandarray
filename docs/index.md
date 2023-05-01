@@ -2,7 +2,7 @@
 # Demo on deploying Nextflow and Slurm array on NeSI Mahuika cluster
 </center>
 
-!!! question "Nextflow"
+!!! circle-question "Nextflow"
     
 
     <center>![image](./nesi_images/nextflow_logo.png){width="200"}</center>
