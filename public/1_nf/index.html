@@ -6,19 +6,20 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="NeSI" name="author"/>
-<link href="https://nesi.github.io/20230503-pfr-nfandarray/" rel="canonical"/>
-<link href="1_nf/" rel="next"/>
-<link href="nesi_images/nesi_logo.png" rel="icon"/>
+<link href="https://nesi.github.io/20230503-pfr-nfandarray/1_nf/" rel="canonical"/>
+<link href=".." rel="prev"/>
+<link href="../2_blast/" rel="next"/>
+<link href="../nesi_images/nesi_logo.png" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.1.6" name="generator"/>
-<title>Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster</title>
-<link href="assets/stylesheets/main.ded33207.min.css" rel="stylesheet"/>
-<link href="assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
+<title>Nextflow - Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster</title>
+<link href="../assets/stylesheets/main.ded33207.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
 <style>:root{--md-text-font:"Mukta";--md-code-font:"Roboto Mono"}</style>
-<link href="stylesheets/extra.css" rel="stylesheet"/>
-<script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-<link href="assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+<link href="../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -29,14 +30,14 @@
                 body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
                 body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
                 body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-                </style><script src="assets/javascripts/glightbox.min.js"></script></head>
+                </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
 <body data-md-color-accent="" data-md-color-primary="indigo" data-md-color-scheme="default" dir="ltr">
 <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
 <input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#demo-on-deploying-nextflow-and-slurm-array-on-nesi-mahuika-cluster">
+<a class="md-skip" href="#nextflow">
           Skip to content
         </a>
 </div>
@@ -44,8 +45,8 @@
 </div>
 <header class="md-header md-header--shadow" data-md-component="header">
 <nav aria-label="Header" class="md-header__inner md-grid">
-<a aria-label="Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster" class="md-header__button md-logo" data-md-component="logo" href="." title="Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster">
-<img alt="logo" src="nesi_images/nesi_logo.png"/>
+<a aria-label="Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster" class="md-header__button md-logo" data-md-component="logo" href=".." title="Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster">
+<img alt="logo" src="../nesi_images/nesi_logo.png"/>
 </a>
 <label class="md-header__button md-icon" for="__drawer">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
@@ -60,7 +61,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Home
+              Nextflow
             
           </span>
 </div>
@@ -130,8 +131,8 @@
 <div class="md-sidebar__inner">
 <nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
 <label class="md-nav__title" for="__drawer">
-<a aria-label="Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster" class="md-nav__button md-logo" data-md-component="logo" href="." title="Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster">
-<img alt="logo" src="nesi_images/nesi_logo.png"/>
+<a aria-label="Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster" class="md-nav__button md-logo" data-md-component="logo" href=".." title="Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster">
+<img alt="logo" src="../nesi_images/nesi_logo.png"/>
 </a>
     Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster
   </label>
@@ -146,19 +147,19 @@
 </a>
 </div>
 <ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<a class="md-nav__link md-nav__link--active" href=".">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
         Home
       </a>
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="1_nf/">
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<a class="md-nav__link md-nav__link--active" href="./">
         Nextflow
       </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="2_blast/">
+<a class="md-nav__link" href="../2_blast/">
         Slurm array: Run multiple BLAST queries in parallel with a single submission script
       </a>
 </li>
@@ -177,23 +178,96 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<p><center></center></p>
-<h1 id="demo-on-deploying-nextflow-and-slurm-array-on-nesi-mahuika-cluster">Demo on deploying Nextflow and Slurm array on NeSI Mahuika cluster<a class="headerlink" href="#demo-on-deploying-nextflow-and-slurm-array-on-nesi-mahuika-cluster" title="Permanent link">¶</a></h1>
-<p></p>
-<div class="admonition circle-question">
-<p class="admonition-title">Nextflow</p>
-<p><center><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="nesi_images/nextflow_logo.png"><img alt="image" src="nesi_images/nextflow_logo.png" width="200"/></a></center>
-<br/>
-<a href="https://www.nextflow.io/">Nextflow</a> is workflow management software which enables the writing of scalable and reproducible scientific workflows. It can integrate various software package and environment management systems from environment modules to Docker, Singularity, and Conda. It allows for existing pipelines written in common scripting languages, such as R and Python, to be seamlessly coupled together. It implements a Domain Specific Language (DSL) that simplifies the implementation and running of workflows on cloud or high-performance computing (HPC) infrastructures.</p>
-<p><a class="md-button md-button--primary" href="1_nf/">Nextflow example</a> </p>
+<h1 id="nextflow">Nextflow<a class="headerlink" href="#nextflow" title="Permanent link">¶</a></h1>
+<details class="microphone">
+<summary>For the demonstrator</summary>
+<ul>
+<li>
+<p>Working directory is <strong>/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/nextflow/</strong></p>
+</li>
+<li>
+<p>Content of <strong>/example_1</strong> directory is 
+  <div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>main.nf<span class="w">  </span>Makefile<span class="w">  </span>nextflow.config<span class="w">  </span>nf-clean.sh
+</code></pre></div></p>
+<ul>
+<li>If any of the files are missing, download them from <a href="https://github.com/nesi/20230503-pfr-nfandarray/tree/main/scripts/nextflow/example_1">the repo</a></li>
+</ul>
+</li>
+<li>
+<p>Content of <strong>/example_2</strong> directory is 
+  <div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>local_config/nesi_mahuika.config<span class="w">  </span>nf_launch.sh
+</code></pre></div></p>
+</li>
+</ul>
+</details>
+<details class="example">
+<summary>Example 1</summary>
+<ul>
+<li>Objective is to create the directory <strong>/output</strong>, populate it with three files <code>bar.txt  baz.txt  foo.txt</code> where the content of each file is a single string matching the filename</li>
+<li>Launching the workflow can be done with 
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>$<span class="w"> </span>module<span class="w"> </span>load<span class="w"> </span>Nextflow/22.10.3<span class="w"> </span>
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a>
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a>$<span class="w"> </span>nextflow<span class="w"> </span>run<span class="w"> </span>main.nf
+</code></pre></div></li>
+</ul>
+<div class="admonition danger">
+<p class="admonition-title">It's interactive<ul>
+<li>Similar to other some workflow management systems, executing <code>nextflow run main.nf</code> will launch it as an interactive process. Therefore, it has to be launched as a background process with utilisty such as <code>tmux</code> , <code>screen</code> , <code>nohup</code>. </li>
+<li>OR....use Slurm's <code>wrap</code> function which is much better than above options 😊</li>
+</ul>
+</p>
 </div>
-<div class="admonition circle-question">
-<p class="admonition-title">Slurm array</p>
-<p><center><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="nesi_images/slurm_array.png"><img alt="image" src="nesi_images/slurm_array.png" width="250"/></a></center>
-<br/>
-Job arrays offer a mechanism for submitting and managing collections of similar jobs quickly and easily; job arrays with millions of tasks can be submitted in milliseconds (subject to configured size limits). All jobs must have the same initial options (e.g. size, time limit, etc.)</p>
-<p><a class="md-button md-button--primary" href="2_blast/">Slurm Array example using BLAST</a></p>
+<ul>
+<li>Therefore, best way to launch is</li>
+</ul>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>sbatch<span class="w"> </span>--wrap<span class="w"> </span><span class="s1">'nextflow run main.nf'</span>
+</code></pre></div>
 </div>
+<ul>
+<li>Check the status with </li>
+</ul>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="c1">#OR use `squeue -j JOBID`</span>
+<a href="#__codelineno-4-2" id="__codelineno-4-2" name="__codelineno-4-2"></a>squeue<span class="w"> </span>--me<span class="w">     </span>
+</code></pre></div>
+</div>
+<div class="admonition tower-observation">
+<p class="admonition-title">Can use <code>nextflow tower</code></p>
+<p>No restrictions (firewall rules,etc) with respect to using <code>nf tower</code>.  As long as the <code>TOWER_ACCESS_TOKEN</code> is defined on current session ( Ideally add it to <em>~/.bashrc</em>), tower can be called as usual via <code>-with-tower</code> flag and runtime information will be propagated to <a href="https://tower.nf/">https://tower.nf/</a>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>sbatch<span class="w"> </span>--wrap<span class="w"> </span><span class="s1">'nextflow run main.nf -with-tower'</span>
+</code></pre></div></p>
+</div>
+</details>
+<details class="example">
+<summary>Example 2</summary>
+<ul>
+<li>This is using the <strong>"image segmentation and extraction of single cell expression data"</strong> pipeline provided by <code>nf-core</code> <a href="https://nf-co.re/imcyto/1.0.0">https://nf-co.re/imcyto/1.0.0</a></li>
+<li>Given this is a Singularity container based workflow, it required few variables such as <code>SINGULARITY_BIND</code>. Ideal approach is to prepare a launch script as below and then submit it with <code>sbatch</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="ch">#!/bin/bash -e</span>
+<a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>module<span class="w"> </span>purge
+<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>module<span class="w"> </span>load<span class="w"> </span>Singularity<span class="w">       </span><span class="c1">#Or Apptainer</span>
+<a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a>module<span class="w"> </span>load<span class="w"> </span>Nextflow/22.10.3
+<a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a>
+<a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a>
+<a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="c1">#Singularity and Nextflow variables</span>
+<a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_BIND</span><span class="o">=</span><span class="s2">"/nesi/project,nesi/nobackup,/opt/nesi"</span>
+<a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_TMPDIR</span><span class="o">=</span>/nesi/nobackup/nesi99999/Dinindu/cache
+<a href="#__codelineno-6-11" id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_CACHEDIR</span><span class="o">=</span><span class="nv">$SINGULARITY_TMPDIR</span>
+<a href="#__codelineno-6-12" id="__codelineno-6-12" name="__codelineno-6-12"></a>setfacl<span class="w"> </span>-b<span class="w"> </span><span class="s2">"</span><span class="nv">$SINGULARITY_TMPDIR</span><span class="s2">"</span>
+<a href="#__codelineno-6-13" id="__codelineno-6-13" name="__codelineno-6-13"></a>setfacl<span class="w"> </span>-b<span class="w"> </span><span class="s2">"/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/nextflow/example_3"</span>
+<a href="#__codelineno-6-14" id="__codelineno-6-14" name="__codelineno-6-14"></a>
+<a href="#__codelineno-6-15" id="__codelineno-6-15" name="__codelineno-6-15"></a><span class="nb">export</span><span class="w"> </span><span class="nv">NXF_EXECUTOR</span><span class="o">=</span>slurm
+<a href="#__codelineno-6-16" id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">NXF_SINGULARITY_CACHEDIR</span><span class="o">=</span><span class="nv">$SINGULARITY_CACHEDIR</span>
+<a href="#__codelineno-6-17" id="__codelineno-6-17" name="__codelineno-6-17"></a>
+<a href="#__codelineno-6-18" id="__codelineno-6-18" name="__codelineno-6-18"></a>srun<span class="w"> </span>nextflow<span class="w"> </span>run<span class="w"> </span>nf-core/imcyto<span class="w"> </span>-profile<span class="w"> </span>test,singularity<span class="w"> </span><span class="se">\</span>
+<a href="#__codelineno-6-19" id="__codelineno-6-19" name="__codelineno-6-19"></a>-c<span class="w"> </span>local_config/nesi_mahuika.config<span class="w">  </span>-resume<span class="w"> </span>-with-tower
+</code></pre></div>
+</details>
 </article>
 </div>
 </div>
@@ -204,13 +278,26 @@ Job arrays offer a mechanism for submitting and managing collections of similar 
 </main>
 <footer class="md-footer">
 <nav aria-label="Footer" class="md-footer__inner md-grid">
-<a aria-label="Next: Nextflow" class="md-footer__link md-footer__link--next" href="1_nf/" rel="next">
+<a aria-label="Previous: Home" class="md-footer__link md-footer__link--prev" href=".." rel="prev">
+<div class="md-footer__button md-icon">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</div>
+<div class="md-footer__title">
+<span class="md-footer__direction">
+                Previous
+              </span>
+<div class="md-ellipsis">
+                Home
+              </div>
+</div>
+</a>
+<a aria-label="Next: Slurm array: Run multiple BLAST queries in parallel with a single submission script" class="md-footer__link md-footer__link--next" href="../2_blast/" rel="next">
 <div class="md-footer__title">
 <span class="md-footer__direction">
                 Next
               </span>
 <div class="md-ellipsis">
-                Nextflow
+                Slurm array: Run multiple BLAST queries in parallel with a single submission script
               </div>
 </div>
 <div class="md-footer__button md-icon">
@@ -238,9 +325,9 @@ Job arrays offer a mechanism for submitting and managing collections of similar 
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"base": ".", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
-<script src="assets/javascripts/bundle.51198bba.min.js"></script>
-<script src="javascripts/mathjax.js"></script>
+<script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../assets/javascripts/bundle.51198bba.min.js"></script>
+<script src="../javascripts/mathjax.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
