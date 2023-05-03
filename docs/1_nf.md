@@ -54,8 +54,9 @@
     ```bash
     #!/bin/bash -e
 
+    #Can use Apptainer as well
     module purge
-    module load Singularity       #Or Apptainer
+    module load Singularity       
     module load Nextflow/22.10.3
 
 
@@ -64,7 +65,7 @@
     export SINGULARITY_TMPDIR=/nesi/nobackup/nesi99999/Dinindu/cache
     export SINGULARITY_CACHEDIR=$SINGULARITY_TMPDIR
     setfacl -b "$SINGULARITY_TMPDIR"
-    setfacl -b "/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/nextflow/example_3"
+    setfacl -b "/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/nextflow/example_2"
 
     export NXF_EXECUTOR=slurm
     export NXF_SINGULARITY_CACHEDIR=$SINGULARITY_CACHEDIR

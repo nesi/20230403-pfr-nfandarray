@@ -247,7 +247,7 @@
 <li>This is using the <strong>"image segmentation and extraction of single cell expression data"</strong> pipeline provided by <code>nf-core</code> <a href="https://nf-co.re/imcyto/1.0.0">https://nf-co.re/imcyto/1.0.0</a></li>
 <li>Given this is a Singularity container based workflow, it required few variables such as <code>SINGULARITY_BIND</code>. Ideal approach is to prepare a launch script as below and then submit it with <code>sbatch</code></li>
 </ul>
-<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="ch">#!/bin/bash -e</span>
+<p><div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="ch">#!/bin/bash -e</span>
 <a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>
 <a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>module<span class="w"> </span>purge
 <a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>module<span class="w"> </span>load<span class="w"> </span>Singularity<span class="w">       </span><span class="c1">#Or Apptainer</span>
@@ -267,6 +267,7 @@
 <a href="#__codelineno-6-18" id="__codelineno-6-18" name="__codelineno-6-18"></a>srun<span class="w"> </span>nextflow<span class="w"> </span>run<span class="w"> </span>nf-core/imcyto<span class="w"> </span>-profile<span class="w"> </span>test,singularity<span class="w"> </span><span class="se">\</span>
 <a href="#__codelineno-6-19" id="__codelineno-6-19" name="__codelineno-6-19"></a>-c<span class="w"> </span>local_config/nesi_mahuika.config<span class="w">  </span>-resume<span class="w"> </span>-with-tower
 </code></pre></div>
+- Submit the script with <code>sbatch nf_launch.sh</code></p>
 </details>
 </article>
 </div>
