@@ -72,3 +72,4 @@
     srun nextflow run nf-core/imcyto -profile test,singularity \
     -c local_config/nesi_mahuika.config  -resume -with-tower
     ```
+    - Submit the script with `sbatch nf_launch.sh`
