@@ -25,6 +25,7 @@ theme:
     toggle:
       icon: material/brightness-auto
       name: Switch to light mode
+    primary: custom
 #    scheme: default
 
   # Palette toggle for light mode
