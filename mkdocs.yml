@@ -18,18 +18,19 @@ theme:
   static_templates:
     - 404.html
 
-  palette: {}
+  palette: 
 
   # Palette toggle for automatic mode
   - media: "(prefers-color-scheme)"
     toggle:
       icon: material/brightness-auto
       name: Switch to light mode
-    scheme: default
+#    scheme: default
 
   # Palette toggle for light mode
   - media: "(prefers-color-scheme: light)"
-    scheme: default
+    primary: custom
+#    scheme: default
     
 
 
@@ -43,7 +44,7 @@ theme:
     toggle:
       icon: material/brightness-4
       name: Switch to system preference
-    primary: indigo
+    primary: custom
   
   features:
     - navigation.tracking
