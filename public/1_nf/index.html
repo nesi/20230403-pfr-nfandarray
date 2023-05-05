@@ -249,23 +249,24 @@
 </ul>
 <p><div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="ch">#!/bin/bash -e</span>
 <a href="#__codelineno-6-2" id="__codelineno-6-2" name="__codelineno-6-2"></a>
-<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a>module<span class="w"> </span>purge
-<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>module<span class="w"> </span>load<span class="w"> </span>Singularity<span class="w">       </span><span class="c1">#Or Apptainer</span>
-<a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a>module<span class="w"> </span>load<span class="w"> </span>Nextflow/22.10.3
-<a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a>
+<a href="#__codelineno-6-3" id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="c1">#Can use Apptainer as well</span>
+<a href="#__codelineno-6-4" id="__codelineno-6-4" name="__codelineno-6-4"></a>module<span class="w"> </span>purge
+<a href="#__codelineno-6-5" id="__codelineno-6-5" name="__codelineno-6-5"></a>module<span class="w"> </span>load<span class="w"> </span>Singularity<span class="w">       </span>
+<a href="#__codelineno-6-6" id="__codelineno-6-6" name="__codelineno-6-6"></a>module<span class="w"> </span>load<span class="w"> </span>Nextflow/22.10.3
 <a href="#__codelineno-6-7" id="__codelineno-6-7" name="__codelineno-6-7"></a>
-<a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="c1">#Singularity and Nextflow variables</span>
-<a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_BIND</span><span class="o">=</span><span class="s2">"/nesi/project,nesi/nobackup,/opt/nesi"</span>
-<a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_TMPDIR</span><span class="o">=</span>/nesi/nobackup/nesi99999/Dinindu/cache
-<a href="#__codelineno-6-11" id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_CACHEDIR</span><span class="o">=</span><span class="nv">$SINGULARITY_TMPDIR</span>
-<a href="#__codelineno-6-12" id="__codelineno-6-12" name="__codelineno-6-12"></a>setfacl<span class="w"> </span>-b<span class="w"> </span><span class="s2">"</span><span class="nv">$SINGULARITY_TMPDIR</span><span class="s2">"</span>
-<a href="#__codelineno-6-13" id="__codelineno-6-13" name="__codelineno-6-13"></a>setfacl<span class="w"> </span>-b<span class="w"> </span><span class="s2">"/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/nextflow/example_3"</span>
-<a href="#__codelineno-6-14" id="__codelineno-6-14" name="__codelineno-6-14"></a>
-<a href="#__codelineno-6-15" id="__codelineno-6-15" name="__codelineno-6-15"></a><span class="nb">export</span><span class="w"> </span><span class="nv">NXF_EXECUTOR</span><span class="o">=</span>slurm
-<a href="#__codelineno-6-16" id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">NXF_SINGULARITY_CACHEDIR</span><span class="o">=</span><span class="nv">$SINGULARITY_CACHEDIR</span>
-<a href="#__codelineno-6-17" id="__codelineno-6-17" name="__codelineno-6-17"></a>
-<a href="#__codelineno-6-18" id="__codelineno-6-18" name="__codelineno-6-18"></a>srun<span class="w"> </span>nextflow<span class="w"> </span>run<span class="w"> </span>nf-core/imcyto<span class="w"> </span>-profile<span class="w"> </span>test,singularity<span class="w"> </span><span class="se">\</span>
-<a href="#__codelineno-6-19" id="__codelineno-6-19" name="__codelineno-6-19"></a>-c<span class="w"> </span>local_config/nesi_mahuika.config<span class="w">  </span>-resume<span class="w"> </span>-with-tower
+<a href="#__codelineno-6-8" id="__codelineno-6-8" name="__codelineno-6-8"></a>
+<a href="#__codelineno-6-9" id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="c1">#Singularity and Nextflow variables</span>
+<a href="#__codelineno-6-10" id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_BIND</span><span class="o">=</span><span class="s2">"/nesi/project,nesi/nobackup,/opt/nesi"</span>
+<a href="#__codelineno-6-11" id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_TMPDIR</span><span class="o">=</span>/nesi/nobackup/nesi99999/Dinindu/cache
+<a href="#__codelineno-6-12" id="__codelineno-6-12" name="__codelineno-6-12"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_CACHEDIR</span><span class="o">=</span><span class="nv">$SINGULARITY_TMPDIR</span>
+<a href="#__codelineno-6-13" id="__codelineno-6-13" name="__codelineno-6-13"></a>setfacl<span class="w"> </span>-b<span class="w"> </span><span class="s2">"</span><span class="nv">$SINGULARITY_TMPDIR</span><span class="s2">"</span>
+<a href="#__codelineno-6-14" id="__codelineno-6-14" name="__codelineno-6-14"></a>setfacl<span class="w"> </span>-b<span class="w"> </span><span class="s2">"/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/nextflow/example_2"</span>
+<a href="#__codelineno-6-15" id="__codelineno-6-15" name="__codelineno-6-15"></a>
+<a href="#__codelineno-6-16" id="__codelineno-6-16" name="__codelineno-6-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">NXF_EXECUTOR</span><span class="o">=</span>slurm
+<a href="#__codelineno-6-17" id="__codelineno-6-17" name="__codelineno-6-17"></a><span class="nb">export</span><span class="w"> </span><span class="nv">NXF_SINGULARITY_CACHEDIR</span><span class="o">=</span><span class="nv">$SINGULARITY_CACHEDIR</span>
+<a href="#__codelineno-6-18" id="__codelineno-6-18" name="__codelineno-6-18"></a>
+<a href="#__codelineno-6-19" id="__codelineno-6-19" name="__codelineno-6-19"></a>srun<span class="w"> </span>nextflow<span class="w"> </span>run<span class="w"> </span>nf-core/imcyto<span class="w"> </span>-profile<span class="w"> </span>test,singularity<span class="w"> </span><span class="se">\</span>
+<a href="#__codelineno-6-20" id="__codelineno-6-20" name="__codelineno-6-20"></a>-c<span class="w"> </span>local_config/nesi_mahuika.config<span class="w">  </span>-resume<span class="w"> </span>-with-tower
 </code></pre></div>
 - Submit the script with <code>sbatch nf_launch.sh</code></p>
 </details>
