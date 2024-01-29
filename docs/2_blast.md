@@ -38,7 +38,7 @@
     
     date;hostname;pwd
     
-    module load BLASTDB/2023-04
+    module load BLASTDB/2024-01
     module load BLAST/2.13.0-GCC-11.3.0
      
     export INPUT_DIR=/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/blast/input-queries
