@@ -10,13 +10,11 @@
         <meta name="author" content="NeSI">
       
       
-        <link rel="canonical" href="https://nesi.github.io/20230503-pfr-nfandarray/2_blast/">
+        <link rel="canonical" href="https://nesi.github.io/20230503-pfr-nfandarray/3_blast/">
       
       
-        <link rel="prev" href="../1_nf/">
+        <link rel="prev" href="../2_blast/">
       
-      
-        <link rel="next" href="../3_blast/">
       
       
       <link rel="icon" href="../nesi_images/nesi_logo.png">
@@ -24,7 +22,7 @@
     
     
       
-        <title>Slurm array: Run multiple BLAST queries in parallel with a single submission script - Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster</title>
+        <title>Multiple threaded BLAST and local database copy - Demo on deploying Nextfow and Slurm array on NeSI Mahuika cluster</title>
       
     
     
@@ -87,7 +85,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#slurm-array-run-multiple-blast-queries-in-parallel-with-a-single-submission-script" class="md-skip">
+        <a href="#multiple-threaded-blast-and-local-database-copy" class="md-skip">
           Skip to content
         </a>
       
@@ -122,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Slurm array: Run multiple BLAST queries in parallel with a single submission script
+              Multiple threaded BLAST and local database copy
             
           </span>
         </div>
@@ -311,6 +309,26 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../2_blast/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Slurm array: Run multiple BLAST queries in parallel with a single submission script
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -323,28 +341,18 @@
         
       
       
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
   
   <span class="md-ellipsis">
-    Slurm array: Run multiple BLAST queries in parallel with a single submission script
+    Multiple threaded BLAST and local database copy
   </span>
   
 
-      </a>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../3_blast/" class="md-nav__link">
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -353,6 +361,44 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#option-1-local-copy-on-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option 1. local copy on Memory
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-2-local-copy-on-milan-partition-local-ssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option 2. Local copy on milan partition local SSD
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -377,6 +423,32 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#option-1-local-copy-on-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option 1. local copy on Memory
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#option-2-local-copy-on-milan-partition-local-ssd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Option 2. Local copy on milan partition local SSD
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -393,73 +465,97 @@
   
 
 
-<h1 id="slurm-array-run-multiple-blast-queries-in-parallel-with-a-single-submission-script">Slurm array: Run multiple BLAST queries in parallel with a single submission script<a class="headerlink" href="#slurm-array-run-multiple-blast-queries-in-parallel-with-a-single-submission-script" title="Permanent link">&para;</a></h1>
-<p><strong>BLAST</strong> finds regions of similarity between biological sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance</p>
-<details class="microphone">
-<summary>For the demonstrator</summary>
-<ul>
-<li>Working directory <strong>/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/blast</strong></li>
-<li>Sequences were delivered in a single file <strong>/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/blast/parent_file/demo-hic.fa</strong></li>
-<li>Sequence file was split to <strong>150</strong> separate queries <strong>by</strong> sequence with <code>faSplit</code> and stored in <strong>input-queries</strong> 
-  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span><span class="nb">pwd</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/blast
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>$<span class="w"> </span>faSplit<span class="w"> </span>sequence<span class="w"> </span>parent_file/demo-hic.fa<span class="w"> </span><span class="m">150</span><span class="w"> </span>split-queries/demo-hic
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>$<span class="w"> </span>ls<span class="w"> </span>split-queries/
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>demo-hic000.fa<span class="w">  </span>demo-hic019.fa<span class="w">  </span>demo-hic038.fa<span class="w">  </span>demo-hic057.fa<span class="w">  </span>demo-hic076.fa<span class="w">  </span>demo-hic095.fa<span class="w">  </span>demo-hic114.fa<span class="w">  </span>demo-hic133.fa
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>demo-hic001.fa<span class="w">  </span>demo..............................
-</code></pre></div></li>
-<li>Slurm Submission script is <strong>/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/blast/scripts/demo-array.slurm</strong></li>
-<li>Query outputs will be saved to <strong>/blast-out</strong> and the Slurm StdOut to <strong>/slurm-logs</strong></li>
-</ul>
-</details>
-<div class="admonition file-code">
-<p class="admonition-title">Slurm array script</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="ch">#!/bin/bash -e</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1">#SBATCH --account        nesi99999</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1">#SBATCH --job-name       blast_fastaSplit</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1">#SBATCH --cpus-per-task  1</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">#SBATCH --mem            2G</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">#SBATCH --time           24:00:00</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1">#SBATCH --array          0-149</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1">#SBATCH --output         /nesi/project/nesi99999/Dinindu/20230503-pfr-demo/blast/slurm-logs/%A_%a.out</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>date<span class="p">;</span>hostname<span class="p">;</span><span class="nb">pwd</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>module<span class="w"> </span>load<span class="w"> </span>BLASTDB/2024-01
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>module<span class="w"> </span>load<span class="w"> </span>BLAST/2.13.0-GCC-11.3.0
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">INPUT_DIR</span><span class="o">=</span>/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/blast/input-queries
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="nb">export</span><span class="w"> </span><span class="nv">OUTPUT_DIR</span><span class="o">=</span>/nesi/project/nesi99999/Dinindu/20230503-pfr-demo/blast/blast-out
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="nv">RUN_ID</span><span class="o">=</span><span class="k">$((</span><span class="w"> </span><span class="nv">$SLURM_ARRAY_TASK_ID</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="k">))</span>
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="nv">QUERY_FILE</span><span class="o">=</span><span class="k">$(</span><span class="w"> </span>ls<span class="w"> </span><span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sed<span class="w"> </span>-n<span class="w"> </span><span class="si">${</span><span class="nv">RUN_ID</span><span class="si">}</span>p<span class="w"> </span><span class="k">)</span>
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="nv">QUERY_NAME</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">QUERY_FILE</span><span class="p">%.*</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="nv">QUERY</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">QUERY_FILE</span><span class="si">}</span><span class="s2">&quot;</span>
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="nv">OUTPUT</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">QUERY_NAME</span><span class="si">}</span><span class="s2">.out&quot;</span>
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>
-<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;Command:\nblastn –query </span><span class="si">${</span><span class="nv">QUERY</span><span class="si">}</span><span class="s2"> –db nt –out </span><span class="si">${</span><span class="nv">OUTPUT</span><span class="si">}</span><span class="s2"> -outfmt 6 -max_target_seqs 1 -num_threads </span><span class="nv">$SLURM_CPUS_PER_TASK</span><span class="s2">&quot;</span>
-<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>
-<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>blastn<span class="w"> </span>-query<span class="w"> </span><span class="si">${</span><span class="nv">QUERY</span><span class="si">}</span><span class="w"> </span>-db<span class="w"> </span>nt<span class="w"> </span>-out<span class="w"> </span><span class="si">${</span><span class="nv">OUTPUT</span><span class="si">}</span><span class="w"> </span>-outfmt<span class="w"> </span><span class="m">6</span><span class="w"> </span>-max_target_seqs<span class="w"> </span><span class="m">1</span><span class="w"> </span>-num_threads<span class="w"> </span><span class="nv">$SLURM_CPUS_PER_TASK</span><span class="w"> </span>
-<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>
-<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>date
+<h1 id="multiple-threaded-blast-and-local-database-copy">Multiple threaded BLAST  and local database copy<a class="headerlink" href="#multiple-threaded-blast-and-local-database-copy" title="Permanent link">&para;</a></h1>
+<div class="admonition pied-piper">
+<p class="admonition-title">How to find the size of a BLAST database associated with <code>BLASTDB</code> - using <code>nr</code> as an example</p>
+<p>Run module show for the BLASTDB module and look for the path starting with /opt/nesi.. under setenv .i.e. </p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>module<span class="w"> </span>show<span class="w"> </span>BLASTDB/2024-01<span class="w"> </span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">   </span>/opt/nesi/CS400_centos7_bdw/modules/all/BLASTDB/2024-01.lua:
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>whatis<span class="o">(</span><span class="s2">&quot;Description: BLAST databases downloaded from NCBI.&quot;</span><span class="o">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>setenv<span class="o">(</span><span class="s2">&quot;BLASTDB&quot;</span>,<span class="s2">&quot;/opt/nesi/db/blast/2024-01&quot;</span><span class="o">)</span>
 </code></pre></div>
-<div class="admonition terminal">
-<p class="admonition-title">submit</p>
-<ul>
-<li>submit the script with <code>sbatch scripts/demo-array.slurm</code> <ul>
-<li>If needed, use array throttling (eeping only a certain number of tasks <strong>RUNNING</strong> at a time). Let's say we want to run only 20 queries at a time (out of 149), then adding <code>#SBATCH --array 0-149%20</code> to the submission script or call during submission to <code>sbatch</code> command with <code>sbatch --array 0-149%20 scripts/demo-array.slurm</code></li>
-</ul>
-</li>
-<li>Review the status of submission with <code>squeue -j jobid</code></li>
-</ul>
+In this instance, it is <code>/opt/nesi/db/blast/2024-01</code></p>
+<p>Now run the following find command pointing to that path and use <code>nr</code> prefix for -name <code>nr.*</code> .  ( You can use the same command for other databases by replacing nr with the required prefix such as nt, etc</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>find<span class="w">  </span>/opt/nesi/db/blast/2024-01/<span class="w"> </span>-type<span class="w"> </span>f<span class="w"> </span>-name<span class="w"> </span><span class="s1">&#39;nr.*&#39;</span><span class="w"> </span>-exec<span class="w"> </span>du<span class="w"> </span>-ch<span class="w"> </span><span class="o">{}</span><span class="w"> </span>+<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>total$
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>485G<span class="w">    </span>total
+</code></pre></div>
 </div>
+<h2 id="option-1-local-copy-on-memory">Option 1. local copy on Memory<a class="headerlink" href="#option-1-local-copy-on-memory" title="Permanent link">&para;</a></h2>
+<p>For jobs which need more than 24 CPU-hours, eg: those that use large databases (&gt; 10 GB) or large amounts of query sequence (&gt; 1 GB), or slow BLAST searches such as classic blastn (blastn -task blastn).</p>
+<p>This script copies the BLAST database into the per-job temporary directory <code>$TMPDIR</code> before starting the search. Since compute nodes do not have local disks, this database copy is in memory, and so must be allowed for in the memory requested by the job</p>
+<div class="admonition note">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1">#SBATCH --job-name      BLAST</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1">#SBATCH --time          02:30:00</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1">#SBATCH --mem           120G  # 30 GB plus the database</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1">#SBATCH --ntasks        1</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1">#SBATCH --cpus-per-task 36    # half a node</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>module<span class="w"> </span>load<span class="w"> </span>BLAST/2.13.0-GCC-11.3.0
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>module<span class="w"> </span>load<span class="w"> </span>BLASTDB/2024-01
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># This script takes one argument, the FASTA file of query sequences.</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="nv">QUERIES</span><span class="o">=</span><span class="nv">$1</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="nv">FORMAT</span><span class="o">=</span><span class="s2">&quot;6 qseqid qstart qend qseq sseqid sgi sacc sstart send staxids sscinames stitle length evalue bitscore&quot;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="nv">BLASTOPTS</span><span class="o">=</span><span class="s2">&quot;-task blastn&quot;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="nv">BLASTAPP</span><span class="o">=</span>blastn
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="nv">DB</span><span class="o">=</span>nt
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="c1">#BLASTAPP=blastx</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="c1">#DB=nr</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="c1"># Keep the database in RAM</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>cp<span class="w"> </span><span class="nv">$BLASTDB</span>/<span class="o">{</span><span class="nv">$DB</span>,taxdb<span class="o">}</span>.*<span class="w"> </span><span class="nv">$TMPDIR</span>/<span class="w"> </span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="nb">export</span><span class="w"> </span><span class="nv">BLASTDB</span><span class="o">=</span><span class="nv">$TMPDIR</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="nv">$BLASTAPP</span><span class="w"> </span><span class="nv">$BLASTOPTS</span><span class="w"> </span>-db<span class="w"> </span><span class="nv">$DB</span><span class="w"> </span>-query<span class="w"> </span><span class="nv">$QUERIES</span><span class="w"> </span>-outfmt<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$FORMAT</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">    </span>-out<span class="w"> </span><span class="nv">$QUERIES</span>.<span class="nv">$DB</span>.<span class="nv">$BLASTAPP</span><span class="w"> </span>-num_threads<span class="w"> </span><span class="nv">$SLURM_CPUS_PER_TASK</span>
+</code></pre></div>
+</div>
+<h2 id="option-2-local-copy-on-milan-partition-local-ssd">Option 2. Local copy on <strong>milan</strong> partition local SSD<a class="headerlink" href="#option-2-local-copy-on-milan-partition-local-ssd" title="Permanent link">&para;</a></h2>
+<ul>
+<li>NeSI Mahuika cluster <code>milan</code> partition compute nodes comes with local NVMe SSDs which can host up to ~1.5TB of data during runtime</li>
+<li>Base Slurm script will be very similar to above with following two Slurm variables</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">#SBATCH --partition milan</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">#SBATCH --gres=ssd</span>
+</code></pre></div>
+<ul>
+<li>Also we can lower the memory to Blast operational requirements </li>
+</ul>
+<div class="admonition note">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">#SBATCH --job-name      BLAST</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">#SBATCH --time          02:30:00</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1">#SBATCH --mem           120G  # 30 GB plus the database</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1">#SBATCH --ntasks        1</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">#SBATCH --cpus-per-task 64    # half a node</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1">#SBATCH --mem           60G</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">#SBATCH --partition     milan</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">#SBATCH --gres          ssd</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>module<span class="w"> </span>load<span class="w"> </span>BLAST/2.13.0-GCC-11.3.0
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>module<span class="w"> </span>load<span class="w"> </span>BLASTDB/2024-01
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="c1"># This script takes one argument, the FASTA file of query sequences.</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="nv">QUERIES</span><span class="o">=</span><span class="nv">$1</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="nv">FORMAT</span><span class="o">=</span><span class="s2">&quot;6 qseqid qstart qend qseq sseqid sgi sacc sstart send staxids sscinames stitle length evalue bitscore&quot;</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="nv">BLASTOPTS</span><span class="o">=</span><span class="s2">&quot;-task blastn&quot;</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="nv">BLASTAPP</span><span class="o">=</span>blastn
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="nv">DB</span><span class="o">=</span>nt
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="c1">#BLASTAPP=blastx</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="c1">#DB=nr</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="c1"># Keep the database in RAM</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>cp<span class="w"> </span><span class="nv">$BLASTDB</span>/<span class="o">{</span><span class="nv">$DB</span>,taxdb<span class="o">}</span>.*<span class="w"> </span><span class="nv">$TMPDIR</span>/<span class="w"> </span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="nb">export</span><span class="w"> </span><span class="nv">BLASTDB</span><span class="o">=</span><span class="nv">$TMPDIR</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="nv">$BLASTAPP</span><span class="w"> </span><span class="nv">$BLASTOPTS</span><span class="w"> </span>-db<span class="w"> </span><span class="nv">$DB</span><span class="w"> </span>-query<span class="w"> </span><span class="nv">$QUERIES</span><span class="w"> </span>-outfmt<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$FORMAT</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">    </span>-out<span class="w"> </span><span class="nv">$QUERIES</span>.<span class="nv">$DB</span>.<span class="nv">$BLASTAPP</span><span class="w"> </span>-num_threads<span class="w"> </span><span class="nv">$SLURM_CPUS_PER_TASK</span>
+</code></pre></div>
 </div>
 
 
@@ -496,7 +592,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../1_nf/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Nextflow">
+          <a href="../2_blast/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Slurm array: Run multiple BLAST queries in parallel with a single submission script">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -506,27 +602,11 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Nextflow
+                Slurm array: Run multiple BLAST queries in parallel with a single submission script
               </div>
             </div>
           </a>
         
-        
-          
-          <a href="../3_blast/" class="md-footer__link md-footer__link--next" aria-label="Next: Multiple threaded BLAST and local database copy">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                Multiple threaded BLAST and local database copy
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
         
       </nav>
     
