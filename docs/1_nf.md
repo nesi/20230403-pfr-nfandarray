@@ -23,8 +23,8 @@
     $ nextflow run main.nf
     ```
     !!! danger "It's interactive"
-            - Similar to other some workflow management systems, executing `nextflow run main.nf` will launch it as an interactive process. Therefore, it has to be launched as a background process with a utility such as `tmux` , `screen` , `nohup`. 
-            - OR....use Slurm's `wrap` function which is much better than above options 😊
+        - Similar to other some workflow management systems, executing `nextflow run main.nf` will launch it as an interactive process. Therefore, it has to be launched as a background process with a utility such as `tmux` , `screen` , `nohup`. 
+        - OR....use Slurm's `wrap` function which is much better than above options 😊
     
     - Therefore, best way to launch is
 
